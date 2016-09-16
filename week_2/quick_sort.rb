@@ -16,6 +16,7 @@ end
 
 def linear_partitioning(a, lo, hi)
   pivot = a[lo]
+  # the concept of i is one after the pivot to start looking after it. 
   i = lo + 1
 
   for j in lo...hi
