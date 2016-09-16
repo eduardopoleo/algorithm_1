@@ -30,9 +30,9 @@ def linear_partitioning(a, lo, hi)
   a[i - 1] = a[lo]
   a[lo] = element_to_swap
 
-  a
+  i
 end
 
-sorted_array = linear_partitioning(a, 0, 8)
+sorted_array = quick_sort(a, 0, 8)
 
 p sorted_array
