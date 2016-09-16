@@ -4,7 +4,20 @@
 # but we can do better than that.
 a = [10, 9, 8, 7, 6, 5]
 
-r = [1, 3, 5, 2, 6, 4]
+file = File.open('data_set.txt', 'r')
+lines = file.readlines
+file.close
+
+b = []
+
+lines.each do |l|
+  l.chomp!
+  b << l
+end
+
+b = b.map(&:to_i)
+
+p b
 
 def sort_and_count(a)
   return [a, 0] if a.length == 1
@@ -45,4 +58,4 @@ def mergesort_and_count_split(a, b)
   [result, count]
 end
 
-p sort_and_count(a)
+p sort_and_count(b)
