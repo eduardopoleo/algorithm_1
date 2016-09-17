@@ -24,7 +24,7 @@ def quick_sort_2(a, lo, hi)
 end
 
 def linear_partitioning(a, lo, hi)
-  pivot_index = hi
+  pivot_index = calculate_pivot(a, lo, hi)
   pivot = a[pivot_index]
   swap(a, pivot_index, lo)
 
@@ -53,16 +53,16 @@ def swap(a, i, j)
 end
 
 # Question 3
-def median_elment_pivot(a, lo, hi)
+def calculate_pivot(a, lo, hi)
   first = a[lo]
   last = a[hi]
 
   new_a = a.slice(lo..hi)
 
   if new_a.size.even?
-    middle_index = a.size/2 - 1
+    middle_index = new_a.size/2 - 1 + lo
   else
-    middle_index = a.size/2
+    middle_index = new_a.size/2 + lo
   end
 
   middle = a[middle_index]
@@ -71,14 +71,13 @@ def median_elment_pivot(a, lo, hi)
 
   case z[1]
   when first
-    return 0
+    lo
   when middle
-    return middle_index
+    middle_index
   when last
-    return -1
+    hi
   end
 end
-
 
 p quick_sort_2(b, 0, 9999)
 
@@ -86,4 +85,4 @@ __END__
 Results:
 lo: 162085
 hi: 164123
-me:
+me: 138382
