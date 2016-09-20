@@ -6,7 +6,6 @@ def r_select(a, i)
   pivot_index = choose_pivot(a.length)
 
   a, new_pivot_index = linear_partitioning(a, pivot_index)
-
   return a[new_pivot_index] if new_pivot_index == i
 
   new_a, new_i = slice_array(a, new_pivot_index, i)
@@ -27,7 +26,7 @@ def linear_partitioning(a, pivot_index)
   i = 1
   for j in 0...length
     if a[j] < pivot
-      swap(a, a[j], a[i])
+      swap(a, j, i)
       i += 1
     end
   end
@@ -44,7 +43,6 @@ def slice_array(a, new_pivot_index, i)
     a = a.slice(new_pivot_index + 1..-1)
     i = i - new_pivot_index
   end
-
   [a, i]
 end
 
@@ -57,4 +55,4 @@ end
 
 a = [1,2,3,4,5,6,7,8]
 
-p r_select(a, 7)
+p r_select(a, 5)
