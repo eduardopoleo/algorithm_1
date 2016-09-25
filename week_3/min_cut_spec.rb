@@ -4,7 +4,7 @@ require_relative './min_cut'
 describe Vertex do
   describe '#merge' do
     let(:vertex1) { described_class.new([1,2,3], [4,5,6,7]) }
-    let(:vertex2) { described_class.new([4,5,6], [7,8,9]) }
+    let(:vertex2) { described_class.new([4,5,6], [7,8,9,1,2]) }
     let(:vertex3) { described_class.new([7,8,9], [1,2,4]) }
 
     before do
