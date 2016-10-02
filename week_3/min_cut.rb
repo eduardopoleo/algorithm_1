@@ -74,24 +74,30 @@ class Graph
   end
 
 end
-#
-file = File.open('data_set.txt', 'r')
-lines = file.readlines
-file.close
 
-vertices = []
-lines.each do |l|
-  l.chomp!
-  line = l.split("\t")
-  vertex = Vertex.new(line.slice(0...1), line.slice(1..-1))
-  vertices << vertex
+min_cuts = []
+
+for i in 0...200
+  file = File.open('data_set.txt', 'r')
+  lines = file.readlines
+  file.close
+
+  vertices = []
+  lines.each do |l|
+    l.chomp!
+    line = l.split("\t")
+    vertex = Vertex.new(line.slice(0...1), line.slice(1..-1))
+    vertices << vertex
+  end
+
+  graph = Graph.new(vertices)
+
+  while graph.size > 2 do
+    vertex1, vertex2, v2_index = graph.pick_edge
+    graph.contract(vertex1, vertex2, v2_index)
+  end
+
+  min_cuts << graph.calculate_min_cut
 end
 
-graph = Graph.new(vertices)
-
-while graph.size > 2 do
-  vertex1, vertex2, v2_index = graph.pick_edge
-  graph.contract(vertex1, vertex2, v2_index)
-end
-
-p graph.calculate_min_cut
+p min_cuts.min
