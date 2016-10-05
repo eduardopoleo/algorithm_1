@@ -21,11 +21,11 @@ describe Graph do
 				@graph.add_vertex(1, 2)
 			end
 
-			it 'creates vertecis if they do not exist' do
+			it 'creates a new vertex' do
 				expect(@graph.vertices.size).to eq(2)
 			end
 
-			it 'sets up the relationship between vertex' do
+			it 'sets up the relationship between vertices' do
 				expect(@graph.vertices[0].edges.size).to eq(1)
 			end
 		end
@@ -39,12 +39,42 @@ describe Graph do
 				@graph.add_vertex(2,3)
 			end
 
-			it 'does not add new vertices to the graph if the vertex already exist' do
+			it 'does NOT add new vertices' do
 				expect(@graph.vertices.size).to eq(3)
 			end
 
-			it 'associates sets the vertices association' do
+			it 'sets the vertices associations' do
 				expect(@graph.vertices[0].edges.map(&:id)).to match_array([2,3])
+			end
+		end
+	end
+
+	describe '#search_vertex' do
+		context 'when vertex are in the same group' do
+			it 'returns the path that led to the vertex for a simple graph' do
+				graph = Graph.new()
+
+				graph.add_vertex(1,2)
+				graph.add_vertex(2,3)
+				graph.add_vertex(3,4)
+				graph.add_vertex(4,1)
+
+				expect(graph.bsf(3)).to eq([1,2,3])
+			end
+
+			it 'returns the path that led to the vertex a more complicated graph starting out from a vertex that has a possible path' do
+				graph = Graph.new()
+				
+				graph.add_vertex(1,2)
+				graph.add_vertex(1,3)
+				graph.add_vertex(2,4)
+				graph.add_vertex(3,4)
+				graph.add_vertex(3,5)		
+				graph.add_vertex(5,6)		
+				graph.add_vertex(4,6)		
+				graph.add_vertex(4,5)		
+
+				expect(graph.bsf(6)).to eq([1,2,3,4,5,6])
 			end
 		end
 	end	
