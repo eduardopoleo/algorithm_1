@@ -11,8 +11,7 @@
 require 'pry'
 
 class Vertex
-	attr_reader :id, :edges
-	attr_accessor :seen
+	attr_reader :id, :edges, :seen, :dist
 
 	def initialize(id)
 		@id = id
@@ -31,6 +30,10 @@ class Vertex
 	def unseen?
 		!seen
 	end
+
+	def set_dist(dist)
+		@dist = dist
+	end
 end
 
 
@@ -41,19 +44,19 @@ class Graph
 		@vertices = []
 	end
 
-	
-
 	def bsf(vertex_id)
 		s = vertices[0]
 		path = [s.id]
 		return path if s.id == vertex_id
 		s.mark_as_seen
 		q = [s]
+		dist = 0
 
 		catch :breaking_the_habbit do
 			while !q.empty? do
 				v = q.shift
 				v.edges.each do |e|
+					# extra code
 					if e.id == vertex_id
 						path << e.id
 						throw :breaking_the_habbit
@@ -62,6 +65,7 @@ class Graph
 					if e.unseen?
 						e.mark_as_seen
 						q << e
+						# extra code
 						path << e.id
 					end
 				end
@@ -69,6 +73,38 @@ class Graph
 		end
 
 		path
+	end
+
+	def bsf_shortest_dist(vertex_id)
+		s = vertices[0]
+		path = [s.id]
+		return path if s.id == vertex_id
+		s.mark_as_seen
+		q = [s]
+		s.set_dist(0)
+		result = 0
+
+		catch :breaking_the_habbit do
+			while !q.empty? do
+				v = q.shift
+				v.edges.each do |e|
+					# extra code
+					if e.id == vertex_id
+						result = v.dist + 1
+						throw :breaking_the_habbit
+					end
+
+					if e.unseen?
+						e.mark_as_seen
+						q << e
+						# extra code
+						e.set_dist(v.dist + 1)
+					end
+				end
+			end
+		end
+
+		result
 	end
 ################################################
 	def add_vertex(vertex_id, edge_id)
@@ -98,17 +134,17 @@ class Graph
 	end
 end
 
-file = File.open('bfs_data_set.txt', 'r')
+# file = File.open('bfs_data_set.txt', 'r')
 
-lines = file.readlines
-file.close
+# lines = file.readlines
+# file.close
 
-graph = Graph.new()
+# graph = Graph.new()
 
-lines.each do |l|
-  l.chomp!
-  line = l.split("\t")
-  vertex_id, edge_id = line.slice(0..1)
-  graph.add_vertex(vertex_id, edge_id )
-end
+# lines.each do |l|
+#   l.chomp!
+#   line = l.split("\t")
+#   vertex_id, edge_id = line.slice(0..1)
+#   graph.add_vertex(vertex_id, edge_id )
+# end
 

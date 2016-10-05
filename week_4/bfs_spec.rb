@@ -49,7 +49,7 @@ describe Graph do
 		end
 	end
 
-	describe '#search_vertex' do
+	describe '#bsf' do
 		context 'when vertex are in the same group' do
 			it 'returns the path that led to the vertex for a simple graph' do
 				graph = Graph.new()
@@ -75,6 +75,25 @@ describe Graph do
 				graph.add_vertex(4,5)		
 
 				expect(graph.bsf(6)).to eq([1,2,3,4,5,6])
+			end
+		end
+	end	
+
+	describe '#bfs_shortest_path' do
+		context 'when vertex are in the same group' do
+			it 'returns the shortest distance for a relative complex graph starting from a node that makes it possible to get there' do
+				graph = Graph.new()
+
+				graph.add_vertex(1,2)
+				graph.add_vertex(1,3)
+				graph.add_vertex(2,4)
+				graph.add_vertex(3,4)
+				graph.add_vertex(3,5)		
+				graph.add_vertex(5,6)		
+				graph.add_vertex(4,6)		
+				graph.add_vertex(4,5)		
+
+				expect(graph.bsf_shortest_dist(6)).to eq(3)
 			end
 		end
 	end	
