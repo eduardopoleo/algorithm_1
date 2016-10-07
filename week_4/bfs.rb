@@ -44,13 +44,13 @@ class Graph
 		@vertices = []
 	end
 
-	def bsf_value(vertex_id, i)
+	def bfs_value(vertex_id, i)
 		#For these simple cases the starting point is not relevant	
 		s = vertices[i]
 		return s.id if s.id == vertex_id
 		s.mark_as_seen
 		q = [s]
-		result = "Not found!"
+		result = :not_found
 
 		catch :breaking_the_habbit do
 			while !q.empty? do
@@ -142,11 +142,15 @@ class Graph
 	end
 
 	def bfs_cc(vertex_id)
-		vertices.each do |v|
+		result = ''
+		vertices.each_with_index do |v,i|
 			if v.unseen?
-				bfs(vertex_id, )
+				result = bfs_value(vertex_id, i)
+				break unless result == :not_found
 			end
 		end
+
+		result
 	end
 
 ###########This is only to produce the graph####
