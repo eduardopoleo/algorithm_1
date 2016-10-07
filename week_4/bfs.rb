@@ -141,7 +141,7 @@ class Graph
 		result
 	end
 
-	def bfs_cc(vertex_id)
+	def bfs_directed_graph(vertex_id)
 		result = ''
 		vertices.each_with_index do |v,i|
 			if v.unseen?
@@ -151,6 +151,42 @@ class Graph
 		end
 
 		result
+	end
+
+	def scc
+		result = []
+		vertices.each_with_index do |v,i|
+			if v.unseen?
+				count = bfs_for_scc(i)
+				result << count
+			end
+		end
+
+		result.sort { |x,y| y <=> x }
+	end
+
+#this should take a vertex to avoid the linear search
+	def bfs_for_scc(i)
+		#For these simple cases the starting point is not relevant	
+		s = vertices[i]
+		s.mark_as_seen
+		q = [s]
+		count = 1
+
+		catch :breaking_the_habbit do
+			while !q.empty? do
+				v = q.shift
+				v.edges.each do |e|
+					if e.unseen?
+						count += 1
+						e.mark_as_seen
+						q << e
+					end
+				end
+			end
+		end
+
+		count
 	end
 
 ###########This is only to produce the graph####

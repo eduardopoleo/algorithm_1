@@ -99,10 +99,10 @@ describe Graph do
 		end
 	end	
 
-	describe '#bfs_cc' do
-		fit 'finds information about a given vertex even if the starting point makes it imposible to transverse' do
+	describe '#bfs_directed_graph' do
+		it 'finds information about a given vertex even if the starting point makes it imposible to transverse' do
 				graph = Graph.new()
-				
+
 				graph.add_vertex(3,4)
 				graph.add_vertex(4,5)
 				graph.add_vertex(1,3)
@@ -113,8 +113,28 @@ describe Graph do
 				graph.add_vertex(5,6)		
 
 				#change the graph interface to find something else...color etc....
-				expect(graph.bfs_cc(1)).to eq(1)
+				expect(graph.bfs_directed_graph(1)).to eq(1)
 		end
+	end
+
+	describe '#bfs_scc' do
+		it 'finds the size of the connected components' do
+			graph = Graph.new()
+
+			graph.add_vertex(1,3)
+			graph.add_vertex(1,5)
+			graph.add_vertex(3,5)
+			graph.add_vertex(5,7)
+			graph.add_vertex(5,9)
+
+			graph.add_vertex(2,4)
+
+			graph.add_vertex(8,6)
+			graph.add_vertex(6,10)
+			graph.add_vertex(10,8)
+
+			expect(graph.scc).to eq([5, 3, 2])
+		end		
 	end
 end
 
