@@ -49,7 +49,8 @@ describe Graph do
 		end
 	end
 
-	describe '#bsf' do
+
+	describe '#bsf_value' do
 		context 'when vertex are in the same group' do
 			it 'returns the path that led to the vertex for a simple graph' do
 				graph = Graph.new()
@@ -59,7 +60,7 @@ describe Graph do
 				graph.add_vertex(3,4)
 				graph.add_vertex(4,1)
 
-				expect(graph.bsf(3)).to eq([1,2,3])
+				expect(graph.bsf_value(3, 0)).to eq(3)
 			end
 
 			it 'returns the path that led to the vertex a more complicated graph starting out from a vertex that has a possible path' do
@@ -74,7 +75,7 @@ describe Graph do
 				graph.add_vertex(4,6)		
 				graph.add_vertex(4,5)		
 
-				expect(graph.bsf(6)).to eq([1,2,3,4,5,6])
+				expect(graph.bsf_value(6, 0)).to eq(6)
 			end
 		end
 	end	
@@ -97,6 +98,22 @@ describe Graph do
 			end
 		end
 	end	
+
+	# describe '#bfs_cc' do
+	# 	it 'finds information about a given vertex even if the starting point makes it imposible to transverse' do
+	# 			graph.add_vertex(3,4)
+	# 			graph.add_vertex(4,5)
+	# 			graph.add_vertex(1,3)
+	# 			graph.add_vertex(4,6)		
+	# 			graph.add_vertex(1,2)
+	# 			graph.add_vertex(3,5)		
+	# 			graph.add_vertex(2,4)
+	# 			graph.add_vertex(5,6)		
+
+	# 			#change the graph interface to find something else...color etc....
+	# 			expect(graph.bfs_cc(1)).to eq(1)
+	# 	end
+	# end
 end
 
 

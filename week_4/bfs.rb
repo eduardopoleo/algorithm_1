@@ -44,8 +44,39 @@ class Graph
 		@vertices = []
 	end
 
-	def bsf(vertex_id)
-		s = vertices[0]
+	def bsf_value(vertex_id, i)
+		#For these simple cases the starting point is not relevant	
+		s = vertices[i]
+		return s.id if s.id == vertex_id
+		s.mark_as_seen
+		q = [s]
+		result = "Not found!"
+
+		catch :breaking_the_habbit do
+			while !q.empty? do
+				v = q.shift
+				v.edges.each do |e|
+					###what we want to find###
+					if e.id == vertex_id
+						result = e.id
+						throw :breaking_the_habbit
+					end
+					###what we want to find###
+
+					if e.unseen?
+						e.mark_as_seen
+						q << e
+					end
+				end
+			end
+		end
+
+		result
+	end
+
+	def bsf_path(vertex_id, i)
+		#For these simple cases the starting point is not relevant
+		s = vertices[i]
 		path = [s.id]
 		return path if s.id == vertex_id
 		s.mark_as_seen
@@ -56,11 +87,12 @@ class Graph
 			while !q.empty? do
 				v = q.shift
 				v.edges.each do |e|
-					# extra code
+					###what we want to find###
 					if e.id == vertex_id
 						path << e.id
 						throw :breaking_the_habbit
 					end
+					###what we want to find###
 
 					if e.unseen?
 						e.mark_as_seen
@@ -76,6 +108,7 @@ class Graph
 	end
 
 	def bsf_shortest_dist(vertex_id)
+		#For these simple cases the starting point is not relevant
 		s = vertices[0]
 		path = [s.id]
 		return path if s.id == vertex_id
@@ -88,11 +121,12 @@ class Graph
 			while !q.empty? do
 				v = q.shift
 				v.edges.each do |e|
-					# extra code
+					###what we want to find###
 					if e.id == vertex_id
 						result = v.dist + 1
 						throw :breaking_the_habbit
 					end
+					###what we want to find###
 
 					if e.unseen?
 						e.mark_as_seen
@@ -106,6 +140,18 @@ class Graph
 
 		result
 	end
+
+	def bfs_cc(vertex_id)
+		vertices.each do |v|
+			if v.unseen?
+				bfs(vertex_id, )
+			end
+		end
+	end
+
+###########This is only to produce the graph####
+###########Move this into a parent class#######
+################################################
 ################################################
 	def add_vertex(vertex_id, edge_id)
 		vertex1, new_vertex = find_or_create_vertex(vertex_id)
@@ -118,7 +164,7 @@ class Graph
 	end
 
 	private
-	# This is shitty. But I do not know how to move forward without this.
+
 	# This is just to build the graph, so
 	def find_or_create_vertex(id)
 		# wouldn't this defeat the purpose of graph searches...
