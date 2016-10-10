@@ -220,17 +220,16 @@ class Graph
 	end
 end
 
-# file = File.open('bfs_data_set.txt', 'r')
+file = File.open('data_set.txt', 'r')
+lines = file.readlines
+graph = Graph.new()
+line_number = 0
+result = []
+count = 0
+lines.each do |l|
+	puts "#{count+=1}"
+end
 
-# lines = file.readlines
-# file.close
+# result = graph.scc
 
-# graph = Graph.new()
-
-# lines.each do |l|
-#   l.chomp!
-#   line = l.split("\t")
-#   vertex_id, edge_id = line.slice(0..1)
-#   graph.add_vertex(vertex_id, edge_id )
-# end
-
+# puts "result: #{result.sort}"
