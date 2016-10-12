@@ -10,11 +10,11 @@ class DfsGraph < Graph
 
 		catch :break do
 			while !q.empty? do
-				v = q.pop
+				v = q.pop #LIFO
 				v.mark_as_seen
 				path << v.id
 
-				# I truly see an vertex when I take a look at its edges.
+				#Truly seen vertex are those which I've seen it's edges.
 				v.edges.reverse.each do |e|
 					###what we want to find###
 					if e.id == vertex_id
