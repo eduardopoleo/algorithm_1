@@ -13,11 +13,11 @@ describe Vertex do
 	end	
 end
 
-describe Graph do
+describe BfsGraph do
 	describe '#add_vertex' do
 		context 'when the vertex does not exist' do
 			before do 
-				@graph = Graph.new
+				@graph = described_class.new
 				@graph.add_vertex(1, 2)
 			end
 
@@ -33,7 +33,7 @@ describe Graph do
 		context 'when the vertex already exist' do
 
 			before do 
-				@graph = Graph.new
+				@graph = described_class.new
 				@graph.add_vertex(1,2)
 				@graph.add_vertex(1,3)
 				@graph.add_vertex(2,3)
@@ -53,7 +53,7 @@ describe Graph do
 	describe '#bfs_value' do
 		context 'when vertex are in the same group' do
 			it 'returns the path that led to the vertex for a simple graph' do
-				graph = Graph.new()
+				graph = described_class.new()
 
 				graph.add_vertex(1,2)
 				graph.add_vertex(2,3)
@@ -64,7 +64,7 @@ describe Graph do
 			end
 
 			it 'returns the path that led to the vertex a more complicated graph starting out from a vertex that has a possible path' do
-				graph = Graph.new()
+				graph = described_class.new()
 				
 				graph.add_vertex(1,2)
 				graph.add_vertex(1,3)
@@ -83,7 +83,7 @@ describe Graph do
 	describe '#bfs_shortest_path' do
 		context 'when vertex are in the same group' do
 			it 'returns the shortest distance for a relative complex graph starting from a node that makes it possible to get there' do
-				graph = Graph.new()
+				graph = described_class.new()
 
 				graph.add_vertex(1,2)
 				graph.add_vertex(1,3)
@@ -101,7 +101,7 @@ describe Graph do
 
 	describe '#bfs_directed_graph' do
 		it 'finds information about a given vertex even if the starting point makes it imposible to transverse' do
-				graph = Graph.new()
+				graph = described_class.new()
 
 				graph.add_vertex(3,4)
 				graph.add_vertex(4,5)
@@ -119,7 +119,7 @@ describe Graph do
 
 	describe '#bfs_scc' do
 		it 'finds the size of the connected components' do
-			graph = Graph.new()
+			graph = described_class.new()
 
 			graph.add_vertex(1,3)
 			graph.add_vertex(1,5)

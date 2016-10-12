@@ -1,7 +1,7 @@
 require 'rspec'
 require 'set'
 
-require_relative './assigment'
+require_relative './fail_scc'
 
 describe '#handle_line' do
 	before do
