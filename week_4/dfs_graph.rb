@@ -1,6 +1,5 @@
 require 'pry'
 
-require_relative './vertex'
 require_relative './graph'
 
 class DfsGraph < Graph
@@ -45,11 +44,12 @@ class DfsGraph < Graph
 
 		$path
 	end
-
+	# regular dfs scan
 	def dfs_visit(vertex_id, vertex)
 		vertex.mark_as_seen
-		$path << vertex.id
-		
+		$path << vertex.id 
+		# each vetices gets added inmmediately to the path 
+
 		vertex.edges.each do |e|
 			if e.id == vertex_id
 				$path << e.id
@@ -60,5 +60,33 @@ class DfsGraph < Graph
 				dfs_visit(vertex_id, e)
 			end	
 		end
+	end
+
+$sort = []
+	def dfs_topological_sort(vertex_id)
+		catch :break do
+			vertices.each do |v|
+				if v.unseen?
+					dfs_visit_sort(vertex_id, v)
+				end
+			end
+		end
+
+		$sort.reverse
+	end
+	
+# topological sort
+	def dfs_visit_sort(vertex_id, vertex)
+		vertex.mark_as_seen
+		
+		vertex.edges.each do |e|
+			if e.unseen?
+				dfs_visit_sort(vertex_id, e)
+			end	
+		end
+		
+		$sort << vertex.id 
+		# The edges do not get added right away,
+		# Only the vertex that is gets 
 	end
 end

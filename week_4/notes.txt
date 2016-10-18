@@ -1,0 +1,4 @@
+EXTRA NOTES
+
+Diference between array and linkedlist.
+Why do they use a linked list as opposed to an array to organize the vertices

@@ -10,7 +10,6 @@
 
 require 'pry'
 
-require_relative './vertex'
 require_relative './graph'
 
 class BfsGraph < Graph
