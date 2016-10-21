@@ -5,6 +5,26 @@ class Graph
 		@vertices = []
 	end
 
+	def self.revert(graph)
+		reverted_graph = new()
+
+		graph.vertices.each do |v|
+			v.edges.each do |e|
+				reverted_graph.add_vertex(e.id, v.id)
+			end
+		end
+
+		reverted_graph
+	end
+
+	def print
+		vertices.each do |v|
+			v.edges.each do |e|
+				puts "#{v.id} ---> #{e.id}"
+			end
+		end
+	end
+
 	def add_vertex(vertex_id, edge_id)
 		vertex1, new_vertex = find_or_create_vertex(vertex_id)
 		vertices << vertex1 if new_vertex
@@ -33,7 +53,8 @@ class Graph
 end
 
 class Vertex
-	attr_reader :id, :edges, :seen, :dist
+	attr_reader :id, :edges, :dist
+	attr_accessor :seen
 
 	def initialize(id)
 		@id = id
