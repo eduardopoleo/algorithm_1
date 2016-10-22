@@ -13,19 +13,16 @@ $sort = []
 
 
 class DfsGraph < Graph
-
 	def dfs_topological_sort
-		catch :break do
-			vertices.each do |v|
-				if v.unseen?
-					dfs_visit_sort(v)
-				end
+		
+		vertices.each do |v|
+			if v.unseen?
+				dfs_visit_sort(v)
 			end
 		end
 
 		$sort.reverse
 	end
-
 
 	def mark_all_unseen
 		vertices.each do |v|
