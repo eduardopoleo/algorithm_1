@@ -86,16 +86,22 @@ def dfs_visit(vertex)
 
 	while !q.empty? do
 		v = q.pop
-		mark_seen(v)
+		# the problem is that several vertices can have the same edge
+		# and before this edge can get seen it gets added to the stack
+		# several times.
+		# I do not think there is other way around this I will just
+		# check if this edge has already been seen or not
+		if !v[:seen]
+			mark_seen(v)
+			$scc << v[:id]
 
-		v[:edges].each do |e|
-			edge = $vertices_reverse[e]
-			if !edge[:seen]
-				$scc << edge[:id]
-				q << edge
+			v[:edges].each do |e|
+				edge = $vertices_reverse[e]
+				if !edge[:seen]
+					q << edge
+				end
 			end
 		end
-		
 	end
 
 	$scc
@@ -109,9 +115,8 @@ while !$sort.empty? do
 	vertex = $vertices_reverse[vertex_id]
 
 	if !vertex[:seen]
-		$scc << vertex[:id]
 		dfs_visit(vertex)
-		$all_scc << $scc.uniq
+		$all_scc << $scc
 		$scc = []
 	end
 end
@@ -119,12 +124,12 @@ end
 # p $all_scc
 
 # p $all_scc.map(&:size).sort
-p $all_scc.map(&:size).sort.slice(-5..-1).reverse
+# p $all_scc.map(&:size).sort.slice(-5..-1).reverse
 
 
-# time2 = Time.now
+time2 = Time.now
 
-# benchmark = (time2 - time1)
+benchmark = (time2 - time1)
 
-# p benchmark
+p benchmark
 
