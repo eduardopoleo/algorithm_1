@@ -3,7 +3,7 @@ require 'pry'
 
 time1 = Time.now
 
-file = File.open('test_data_set5.txt', 'r')
+file = File.open('test_data_set7.txt', 'r')
 lines = file.readlines
 file.close
 
@@ -89,7 +89,7 @@ end
 
 topological_sort
 
-p $sort
+$finish_time2 = $sort.map(&:to_i).sort
 
 while !$sort.empty? do
 	vertex_id = $sort.pop
@@ -102,7 +102,8 @@ while !$sort.empty? do
 	end
 end
 
-p $all_scc.map(&:size).sort
+# p $all_scc.map(&:size).sort
+# p $all_scc.map(&:size).sort.slice(-5..-1).reverse
 
 # p $sort
 

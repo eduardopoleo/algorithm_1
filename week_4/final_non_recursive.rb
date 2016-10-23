@@ -3,7 +3,7 @@ require 'pry'
 
 time1 = Time.now
 
-file = File.open('test_data_set5.txt', 'r')
+file = File.open('test_data_set7.txt', 'r')
 lines = file.readlines
 file.close
 
@@ -63,12 +63,14 @@ def dfs_sort(vertex)
 		if v.is_a?(String)
 			$sort << v
 		else
-			mark_seen(v)
-			q << v[:id]
-			v[:edges].each do |e|
-				edge = $vertices[e]
-				if !edge[:seen]
-					q << edge
+			if !v[:seen] 
+				mark_seen(v)
+				q << v[:id]
+				v[:edges].each do |e|
+					edge = $vertices[e]
+					if !edge[:seen]
+						q << edge
+					end
 				end
 			end
 		end
@@ -98,6 +100,7 @@ def dfs_visit(vertex)
 end
 
 scc_sort
+$finish_time1 = $sort.map(&:to_i).sort
 
 while !$sort.empty? do
 	vertex_id = $sort.pop
@@ -110,12 +113,13 @@ while !$sort.empty? do
 	end
 end
 
-p $all_scc.map(&:size).sort
+# p $all_scc.map(&:size).sort
+# p $all_scc.map(&:size).sort.slice(-5..-1).reverse
 
 
 # time2 = Time.now
 
-# benchmark = (time2 - time1)/60
+# benchmark = (time2 - time1)
 
 # p benchmark
 
