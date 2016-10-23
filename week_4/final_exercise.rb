@@ -3,10 +3,10 @@ require 'pry'
 
 time1 = Time.now
 
-file = File.open('test_data_set5.txt', 'r')
+file = File.open('data_set.txt', 'r')
 lines = file.readlines
 file.close
-
+puts ENV['RUBY_THREAD_VM_STACK_SIZE']
 $vertices = { }
 $vertices_reverse = { }
 $sort = []
@@ -102,5 +102,9 @@ end
 p $all_scc.map(&:size).sort
 
 
+time2 = Time.now
 
+benchmark = (time2 - time1)/60
+
+p benchmark
 
