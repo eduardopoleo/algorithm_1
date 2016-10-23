@@ -77,31 +77,34 @@ def dfs_sort(vertex)
 	$sort
 end
 
-def dfs_visit(vertex, vertex_id)
-	mark_seen(vertex)
+def dfs_visit(vertex)
+	q = [vertex]
 
-	$scc << vertex_id
+	while !q.empty? do
+		v = q.pop
+		mark_seen(v)
 
-	vertex[:edges].each do |e|
-		edge = $vertices_reverse[e]
-		if !edge[:seen]
-			dfs_visit(edge, e)
+		$scc << v[:id]
+
+		v[:edges].each do |e|
+			edge = $vertices_reverse[e]
+			if !edge[:seen]
+				q << edge
+			end
 		end
 	end
+
+	$scc
 end
 
-# Pass vertex_id so that I do not have to repeat the look up
-
 scc_sort
-
-p $sort
 
 while !$sort.empty? do
 	vertex_id = $sort.pop
 	vertex = $vertices_reverse[vertex_id]
 
 	if !vertex[:seen]
-		dfs_visit(vertex, vertex_id)
+		dfs_visit(vertex)
 		$all_scc << $scc
 		$scc = []
 	end
