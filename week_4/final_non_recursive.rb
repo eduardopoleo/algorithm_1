@@ -19,18 +19,17 @@ lines.each do |l|
 
   # creates vertex that will hold the edge
   vertex = $vertices[line[0]]
-  vertex ? vertex[:edges] << line[1] : $vertices[line[0]] = { seen: false, edges: [line[1]] }
+  vertex ? vertex[:edges] << line[1] : $vertices[line[0]] = { id: line[0], seen: false, edges: [line[1]] }
 
-  # creates the edge node
-
+  # Edge case where there's an edge that does not have 'edges' and otherwise would never be created
   edge = $vertices[line[1]]
-  $vertices[line[1]] = { seen: false, edges: [] } unless edge
+  $vertices[line[1]] = { id: line[1] ,seen: false, edges: [] } unless edge
 end	
 
 
 $vertices.each do |vertex_id, info|
 	vertex = $vertices_reverse[vertex_id]
-  $vertices_reverse[vertex_id] = { seen: false, edges: [] } unless vertex
+  $vertices_reverse[vertex_id] = { id: vertex_id, seen: false, edges: [] } unless vertex
 
 	info[:edges].each do |edge|
 		reverse_vertex = $vertices_reverse[edge]
@@ -38,7 +37,7 @@ $vertices.each do |vertex_id, info|
 		if reverse_vertex
 			reverse_vertex[:edges] << vertex_id
 		else
-			$vertices_reverse[edge] = { seen: false, edges: [vertex_id] }
+			$vertices_reverse[edge] = { id: edge, seen: false, edges: [vertex_id] }
 		end
 	end
 end
@@ -47,31 +46,35 @@ def mark_seen(vertex)
 	vertex[:seen] = true
 end
 
-# more than topological sorting is about sorting the edges
-# based on their finishing times. 
-# An edge is considered finsihed when we have found everything reachable from it!
-# An then we stack them in that order
-def topological_sort
-	$vertices.each do |vertex_id, info|
-		vertex = $vertices[vertex_id]
+def scc_sort
+	$vertices.each do |id, vertex|
 		if !vertex[:seen]
-			dfs_visit_sort(vertex, vertex_id)
+			dfs_sort(vertex)
 		end
 	end
 end
 
-def dfs_visit_sort(vertex, vertex_id)
-	mark_seen(vertex)
 
-	vertex[:edges].each do |e|
-		edge = $vertices[e]
+def dfs_sort(vertex)
+	q = [vertex]
 
-		if !edge[:seen]
-			dfs_visit_sort(edge, e)
+	while !q.empty? do
+		v = q.pop
+		if v.is_a?(String)
+			$sort << v
+		else
+			mark_seen(v)
+			q << v[:id]
+			v[:edges].each do |e|
+				edge = $vertices[e]
+				if !edge[:seen]
+					q << edge
+				end
+			end
 		end
 	end
-# last element gets added to the sort first
-	$sort << vertex_id
+
+	$sort
 end
 
 def dfs_visit(vertex, vertex_id)
@@ -87,7 +90,9 @@ def dfs_visit(vertex, vertex_id)
 	end
 end
 
-topological_sort
+# Pass vertex_id so that I do not have to repeat the look up
+
+scc_sort
 
 p $sort
 
@@ -104,7 +109,6 @@ end
 
 p $all_scc.map(&:size).sort
 
-# p $sort
 
 # time2 = Time.now
 

@@ -123,6 +123,10 @@ class BfsGraph < Graph
 	end
 
 	def scc
+		# This only works for undirected graphs. And the point is that
+		# you'll be able to find the size of isolated components
+		# Does not work on a directed graph cuz the count may get skew depending
+		# on the vertex you start.
 		result = []
 		vertices.each_with_index do |v,i|
 			if v.unseen?
@@ -134,7 +138,6 @@ class BfsGraph < Graph
 		result.sort { |x,y| y <=> x }
 	end
 
-#this should take a vertex to avoid the linear search
 	def bfs_for_scc(i)
 		#For these simple cases the starting point is not relevant	
 		s = vertices[i]
