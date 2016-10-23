@@ -88,7 +88,6 @@ def dfs_visit(vertex, vertex_id)
 end
 
 topological_sort
-
 # $abalon2 = $sort.map(&:to_i)
 
 while !$sort.empty? do
@@ -103,7 +102,7 @@ while !$sort.empty? do
 end
 
 # p $all_scc.map(&:size).sort
-# p $all_scc.map(&:size).sort.slice(-5..-1).reverse
+p $all_scc.map(&:size).sort.slice(-5..-1).reverse
 
 # p $sort
 

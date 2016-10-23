@@ -3,7 +3,7 @@ require 'pry'
 
 time1 = Time.now
 
-file = File.open('test_data_set7.txt', 'r')
+file = File.open('data_set.txt', 'r')
 lines = file.readlines
 file.close
 
@@ -88,14 +88,14 @@ def dfs_visit(vertex)
 		v = q.pop
 		mark_seen(v)
 
-		$scc << v[:id]
-
 		v[:edges].each do |e|
 			edge = $vertices_reverse[e]
 			if !edge[:seen]
+				$scc << edge[:id]
 				q << edge
 			end
 		end
+		
 	end
 
 	$scc
@@ -109,11 +109,14 @@ while !$sort.empty? do
 	vertex = $vertices_reverse[vertex_id]
 
 	if !vertex[:seen]
+		$scc << vertex[:id]
 		dfs_visit(vertex)
-		$all_scc << $scc
+		$all_scc << $scc.uniq
 		$scc = []
 	end
 end
+
+# p $all_scc
 
 # p $all_scc.map(&:size).sort
 p $all_scc.map(&:size).sort.slice(-5..-1).reverse
