@@ -66,7 +66,9 @@ def dfs_sort(vertex)
 			if !v[:seen] 
 				mark_seen(v)
 				q << v[:id]
-				v[:edges].each do |e|
+				# have to reverse the edges otherwise it would yield a different result than 
+				# the recursive version.
+				v[:edges].reverse.each do |e|
 					edge = $vertices[e]
 					if !edge[:seen]
 						q << edge
@@ -100,7 +102,7 @@ def dfs_visit(vertex)
 end
 
 scc_sort
-$finish_time1 = $sort.map(&:to_i).sort
+# $abalon = $sort.map(&:to_i)
 
 while !$sort.empty? do
 	vertex_id = $sort.pop
@@ -114,7 +116,7 @@ while !$sort.empty? do
 end
 
 # p $all_scc.map(&:size).sort
-# p $all_scc.map(&:size).sort.slice(-5..-1).reverse
+p $all_scc.map(&:size).sort.slice(-5..-1).reverse
 
 
 # time2 = Time.now

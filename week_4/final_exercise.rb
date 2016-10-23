@@ -89,7 +89,7 @@ end
 
 topological_sort
 
-$finish_time2 = $sort.map(&:to_i).sort
+# $abalon2 = $sort.map(&:to_i)
 
 while !$sort.empty? do
 	vertex_id = $sort.pop
