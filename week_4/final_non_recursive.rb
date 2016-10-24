@@ -66,9 +66,7 @@ def dfs_sort(vertex)
 			if !v[:seen] 
 				mark_seen(v)
 				q << v[:id]
-				# have to reverse the edges otherwise it would yield a different result than 
-				# the recursive version.
-				v[:edges].reverse.each do |e|
+				v[:edges].each do |e|
 					edge = $vertices[e]
 					if !edge[:seen]
 						q << edge
